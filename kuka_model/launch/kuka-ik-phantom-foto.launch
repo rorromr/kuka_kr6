@@ -1,0 +1,73 @@
+<launch>
+  <!-- KUKA Real -->
+  <!-- URDF -->
+  <param
+    name="kuka_real_description"
+    textfile="$(find kuka_model)/urdf/kuka-kinect-model.urdf" />
+
+  <!-- Nodos y archivos para IK -->
+  <!-- Semantic description SRDF -->
+  <param name="kuka_real_description_semantic" textfile="$(find kuka_moveit)/config/kuka-model.srdf" />
+  
+  <!-- Joint limits -->
+  <group ns="kuka_real_description_planning">
+    <rosparam command="load" file="$(find kuka_moveit)/config/joint_limits.yaml"/>
+  </group>
+
+  <!-- Kinematics -->
+  <group ns="kuka_real_description_kinematics">
+    <rosparam command="load" file="$(find kuka_moveit)/config/kinematics.yaml"/>
+  </group>
+
+  <node
+    name="kuka_real_publisher"
+    pkg="robot_state_publisher"
+    type="state_publisher" >
+    <remap from="joint_states" to="real_joint_states" />
+    <remap from="robot_description" to="kuka_real_description" />
+    <param name="tf_prefix" value="real" />
+  </node>
+
+  <!-- Publisher para KUKA Real-->
+  <!--
+  <node
+    name="real_joint_state_publisher"
+    pkg="joint_state_publisher"
+    type="joint_state_publisher" >
+    <remap from="joint_states" to="real_joint_states" />
+    <remap from="robot_description" to="kuka_real_description" />    
+    <param name="use_gui" value="true" />
+  </node>
+  -->
+
+  <!-- Transformación para KUKA Real y KUKA Shadow 
+  <node pkg="kuka_model" type="kuka_tf" name="kuka_tf">
+    <param name="rate" value="60" />
+  </node>
+-->
+  <!-- RViz con KUKA Real y KUKA Shadow -->
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find kuka_model)/config/kuka-ik-demo.rviz" />
+
+  <node pkg="tf" type="static_transform_publisher" name="kuka_tf_broadcaster" args="0 0 0 0 0 0 world real/base 20" />
+
+
+  <node pkg="kuka_model" type="kuka_ik_demo" name="kuka_ik_demo">
+    <remap from="joint_states" to="real_joint_states" />
+    <remap from="robot_description" to="kuka_real_description" />
+    <param name="rate" value="60" />
+    <param name="origin" value="base" />
+  </node>
+
+  <!-- Driver phantom -->
+  <node name="omni1" pkg="phantom_omni" type="omni" output="screen"/>
+
+  <!-- Nodo phantom   -->
+  <!--<node name="test_ph_node" pkg="phantom_kuka" type="test_ph_node"/>-->
+  <node name="phantom_kuka_ik" pkg="phantom_kuka" type="phantom_kuka_ik"/>
+  <node pkg="tf" type="static_transform_publisher" name="kinect_broadcaster" args="0 0 0 0 0 0 1 real/depth_sensor camera_link 100" />
+
+</launch>

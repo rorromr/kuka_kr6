@@ -1,0 +1,28 @@
+<launch>
+
+  <include file="$(find kuka_model)/launch/kinect.launch"/>
+
+  <arg name="vel" default="30" /> 
+  
+  <include file="$(find kuka_model)/launch/kuka-view.launch"/>
+
+  <node name="kuka_state"
+    pkg="uchile_kuka"
+    type="kuka_state"
+    output="screen" />
+
+  <node name="kuka_action"
+    pkg="uchile_kuka"
+    type="kuka_action_server" output="screen" />
+
+  <node name="pc_filter"
+    pkg="pcl_tutorial"
+    type="pc_filter" output="screen" >
+    <remap from="input" to="/camera/depth_registered/points" />
+  </node>
+
+
+
+
+  
+</launch>

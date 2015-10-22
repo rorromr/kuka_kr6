@@ -1,0 +1,23 @@
+<launch>
+  
+  <param
+    name="robot_description"
+    textfile="$(find kuka_model)/urdf/kuka-kinect-model.urdf" />
+  
+  
+  <node name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="state_publisher" />
+  
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find kuka_model)/config/kuka-view.rviz" />
+
+  <include file="$(find kuka_model)/launch/kinect_frames.launch"/>
+
+  <node pkg="tf" type="static_transform_publisher" name="kinect_broadcaster" args="0 0.02 0 0 0 0 depth_sensor camera_link 30" output="log"/>
+
+    
+</launch>

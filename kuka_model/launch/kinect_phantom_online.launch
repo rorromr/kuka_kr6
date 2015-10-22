@@ -1,0 +1,37 @@
+<launch>
+  <!-- LAUNCH DE KINECT -->
+  
+  <include file="$(find freenect_launch)/launch/examples/freenect-registered-xyzrgb.launch"/>
+
+  <!-- Driver phantom -->
+  <node 
+    name="omni1" pkg="phantom_omni" type="omni" output="screen" >
+  </node>
+
+  <!-- pose_to_shadow_effector_pose -->
+  <node
+    name="pose_to_shadow_effector_pose1" pkg="phantom_kuka" type="pose_to_shadow_effector_pose" >
+  </node>
+
+  <node 
+    name="phantom_kuka_haptic_online1" pkg="phantom_kuka" type="phantom_kuka_haptic_online">
+  </node>
+
+  <node name="phantom_kuka_haptic1" pkg="phantom_kuka" type="phantom_kuka_haptic">
+    <param name="frame_id" value="/world" />
+    <param name="rate" value="12000" />
+  </node>
+
+  <!-- Force filter -->
+  <node name="feedback_mm_filter1" pkg="phantom_kuka" type="feedback_mm_filter" >
+    <remap from="force_out" to="force_feedback" />
+    <param name="rate" value="1000" />
+    <param name="force_order" value="40" />
+    <param name="force_sat" value="9.5" />
+  </node>
+
+  <!-- RViz con KUKA Real y KUKA Shadow -->
+  <node
+    name="rviz" pkg="rviz" type="rviz" args="-d $(find kuka_model)/config/kinect-phantom-online.rviz" >
+  </node>  
+</launch>

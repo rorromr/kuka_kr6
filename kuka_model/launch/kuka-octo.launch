@@ -1,0 +1,33 @@
+<launch>
+  <param
+    name="robot_description"
+    textfile="$(find kuka_model)/urdf/kuka-kinect-model.urdf" />
+  
+  <node
+    name="joint_state_publisher"
+    pkg="joint_state_publisher"
+    type="joint_state_publisher">
+    <param name="use_gui" value="true" />
+  </node>
+  
+  <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="state_publisher" />
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find kuka_model)/config/kuka-kinect-config.rviz" />
+
+  <!--
+  
+  <include
+    file="$(find octomap_server)/launch/octomap_mapping.launch"
+  />
+-->
+<include
+    file="$(find freenect_launch)/launch/freenect.launch"/>
+  
+  <node pkg="tf" type="static_transform_publisher" name="kinect_broadcaster" args="1 0 0 0 0 0 1 real/camera_link camera_link 100" />
+</launch>

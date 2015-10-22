@@ -1,0 +1,90 @@
+<launch>
+
+  <!-- KUKA Shadow -->
+  <!--
+  <param
+      name="kuka_shadow_description"
+      textfile="$(find kuka_model)/urdf/kuka-shadow-model.urdf" />
+
+  <node
+    name="kuka_shadow_publisher"
+    pkg="robot_state_publisher"
+    type="state_publisher" >
+    <remap from="joint_states" to="shadow_joint_states" />
+    <remap from="robot_description" to="kuka_shadow_description" />
+    <param name="tf_prefix" value="shadow" />
+  </node>
+
+  <node
+    name="shadow_joint_state_publisher"
+    pkg="joint_state_publisher"
+    type="joint_state_publisher" >
+    <remap from="joint_states" to="shadow_joint_states" />
+    <remap from="robot_description" to="kuka_shadow_description" />    
+    <param name="use_gui" value="true" />
+  </node>
+  -->
+
+  <!-- KUKA Real -->
+  <!-- URDF -->
+  <param
+    name="robot_description"
+    textfile="$(find kuka_model)/urdf/kuka-model.urdf" />
+
+  <!-- Nodos y archivos para IK -->
+  <!-- Semantic description SRDF -->
+  <param name="robot_description_semantic" textfile="$(find kuka_moveit)/config/kuka-model.srdf" />
+  
+  <!-- Joint limits -->
+  <group ns="robot_description_planning">
+    <rosparam command="load" file="$(find kuka_moveit)/config/joint_limits.yaml"/>
+  </group>
+
+  <!-- Kinematics -->
+  <group ns="robot_description_kinematics">
+    <rosparam command="load" file="$(find kuka_moveit)/config/kinematics.yaml"/>
+  </group>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" >
+    <param name="tf_prefix" value="" />
+  </node>
+
+  <!-- Publisher para KUKA Real-->
+  <!--
+  <node
+    name="joint_state_publisher"
+    pkg="joint_state_publisher"
+    type="joint_state_publisher" >
+    
+    <remap from="joint_states" to="real_joint_states" />
+    <remap from="robot_description" to="kuka_real_description" />    
+    <param name="use_gui" value="true" />
+  
+  </node>
+  -->
+
+  <!-- Transformación base y world -->
+ 
+  <node pkg="tf" type="static_transform_publisher" name="kuka_tf_broadcaster" args="0 0 0 0 0 0 world base 30" output="log"/>
+
+  <!-- RViz con KUKA Real y KUKA Shadow -->
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find kuka_model)/config/kuka-ik-demo.rviz" />
+
+  <node pkg="kuka_model" type="kuka_ik_demo2" name="kuka_ik" output="screen">
+    <param name="rate" value="30" />
+    <param name="origin" value="/world" />
+    <remap from="goal_pose" to="marker_pose" />
+  </node>
+
+  <node pkg="kuka_model" type="kuka_joint_marker" name="kuka_joint_marker" output="screen">
+    <param name="rate" value="30" />
+    <param name="frame_id" value="/world" />
+    <param name="marker_frame" value="/marker_frame" />
+    <rosparam param="init_pose">[1.0125, 0.007348, 1.4664, 0.0, 0.0, 0.0]</rosparam><!-- Home pose for link_6 -->
+ </node>
+
+</launch>

@@ -1,0 +1,19 @@
+<launch>
+  <!-- Kinect Driver -->
+  <include file="$(find freenect_launch)/launch/freenect.launch">
+    <arg name="publish_tf"      value="false" />
+    <arg name="rgb_frame_id"    value="camera_rgb_optical_frame" />
+    <arg name="depth_frame_id"    value="camera_depth_optical_frame" />
+    <!-- use device registration -->
+    <arg name="depth_registration"              value="true" /> 
+    <arg name="rgb_processing"                  value="true" />
+    <arg name="ir_processing"                   value="false" />
+    <arg name="depth_processing"                value="false" />
+    <arg name="depth_registered_processing"     value="true" />
+    <arg name="disparity_processing"            value="false" />
+    <arg name="disparity_registered_processing" value="false" />
+    <arg name="sw_registered_processing"        value="false" />
+    <arg name="hw_registered_processing"        value="true" />
+  </include>
+
+</launch>

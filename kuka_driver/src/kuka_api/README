@@ -1,0 +1,10 @@
+
+
+ATTENTION IL FAUT GARDER UN BONNE COHERENCE ENTRE 
+le fichier kuka_api.h et le fichier kuka.h (généré par rpcgen à partir 
+de kuka.x). En effet le fichier kuka_api.h reprend les définitions de 
+types, structures etc spécifiées dans kuka.x.
+
+CECI EST TRES DANGEREUX DANS LE SENS OU SI 
+L'UTILISATEUR DE kuka_api.h PASSE DE MAUVAIS
+ARGUMENTS AU APPELS RPC, CELA FAIT TOUT PLANTER.

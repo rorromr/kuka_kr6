@@ -1,0 +1,4 @@
+# Joint position
+float32[6] position
+---
+bool result

@@ -1,0 +1,31 @@
+<launch>
+
+  <arg name="vel" default="30" /> 
+  
+  <param
+    name="robot_description"
+    textfile="$(find kuka_model)/urdf/kuka-kinect-model.urdf" />
+  
+  <node
+    name="joint_state_publisher"
+    pkg="joint_state_publisher" 
+    type="joint_state_publisher" >
+
+    <param name="use_gui" value="true" />
+  </node>
+  
+  <node name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="state_publisher" />
+  
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find kuka_model)/config/kuka-view.rviz" />
+
+  <node name="kuka_demo" pkg="uchile_kuka" type="kuka_demo" output="screen">
+    <param name="kuka_speed" value="$(arg vel)" />
+  </node>
+  
+</launch>

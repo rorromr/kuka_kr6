@@ -1,0 +1,85 @@
+<launch>
+  <!-- KUKA Real -->
+  <!-- URDF -->
+  <param
+    name="kuka_real_description"
+    textfile="$(find kuka_model)/urdf/kuka-kinect-model.urdf" />
+
+  <!-- Nodos y archivos para IK -->
+  <!-- Semantic description SRDF -->
+  <param name="kuka_shadow_description_semantic" textfile="$(find kuka_moveit)/config/kuka-model.srdf" />
+  
+  <!-- Joint limits -->
+  <group ns="kuka_shadow_description_planning">
+    <rosparam command="load" file="$(find kuka_moveit)/config/joint_limits.yaml"/>
+  </group>
+
+  <!-- Kinematics -->
+  <group ns="kuka_shadow_description_kinematics">
+    <rosparam command="load" file="$(find kuka_moveit)/config/kinematics.yaml"/>
+  </group>
+
+  <node
+    name="kuka_real_publisher"
+    pkg="robot_state_publisher"
+    type="state_publisher" >
+    <remap from="joint_states" to="real_joint_states" />
+    <remap from="robot_description" to="kuka_real_description" />
+    <param name="tf_prefix" value="real" />
+  </node>
+
+  <!-- Publisher para KUKA Real-->
+  <!--
+  <node
+    name="real_joint_state_publisher"
+    pkg="joint_state_publisher"
+    type="joint_state_publisher" >
+    <remap from="joint_states" to="real_joint_states" />
+    <remap from="robot_description" to="kuka_real_description" />    
+    <param name="use_gui" value="true" />
+  </node>
+  -->
+
+  <!-- Transformación para KUKA Real y KUKA Shadow -->
+  <node pkg="kuka_model" type="kuka_tf" name="kuka_tf">
+    <param name="rate" value="60" />
+  </node>
+
+
+  <param
+    name="kuka_shadow_description"
+    textfile="$(find kuka_model)/urdf/kuka-shadow-model.urdf" />
+
+  <node
+    name="kuka_shadow_publisher"
+    pkg="robot_state_publisher"
+    type="state_publisher" >
+    <remap from="joint_states" to="shadow_joint_states" />
+    <remap from="robot_description" to="kuka_shadow_description" />
+    <param name="tf_prefix" value="shadow" />
+  </node>
+
+
+  <!-- RViz con KUKA Real y KUKA Shadow -->
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find kuka_model)/config/kuka-shadow-ik.rviz" />
+
+  <node pkg="kuka_model" type="kuka_ik_demo2" name="kuka_ik_demo2">
+    <remap from="goal_pose" to="efector_pose" />
+    <remap from="joint_states" to="shadow_joint_states" />
+    <remap from="robot_description" to="kuka_shadow_description" />
+    <param name="rate" value="60" />
+    <param name="origin" value="shadow/base" />
+  </node>
+
+  <!-- Driver phantom -->
+  <node name="omni1" pkg="phantom_omni" type="omni" output="screen"/>
+
+  <!-- Nodo phantom   -->
+  <!--<node name="test_ph_node" pkg="phantom_kuka" type="test_ph_node"/>-->
+  <node name="phantom_kuka_ik" pkg="phantom_kuka" type="phantom_kuka_ik"/>
+
+</launch>

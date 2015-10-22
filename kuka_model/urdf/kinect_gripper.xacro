@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<robot
+  xmlns:xacro="http://www.ros.org/wiki/xacro"
+  name="kuka-model">
+<!-- Kinect base link -->
+<link
+  name="${prefix}kinect_base_link">
+  <inertial>
+    <origin
+      xyz="-0.0092379 3.5234E-05 -0.10469"
+      rpy="0 0 0" />
+    <mass
+      value="0.7647" />
+    <inertia
+      ixx="0.0042452"
+      ixy="2.9964E-07"
+      ixz="-6.0788E-05"
+      iyy="0.0017558"
+      iyz="-1.3174E-06"
+      izz="0.0029547" />
+  </inertial>
+  <visual>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <geometry>
+      <mesh
+        filename="package://kuka_model/meshes/tool/visual/kinect_gripper.stl" />
+    </geometry>
+    <material
+      name="">
+      <color
+        rgba="0.4 0.4 0.4 ${alpha}" />
+    </material>
+  </visual>
+  <collision>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <geometry>
+      <mesh
+        filename="package://kuka_model/meshes/tool/collision/kinect_gripper.stl" />
+    </geometry>
+  </collision>
+</link>
+<!-- Kinect sensor link -->
+<link
+  name="${prefix}depth_sensor" />
+<!-- Kinect gripper joint -->
+<joint
+  name="kinect_base"
+  type="fixed">
+  <origin
+    xyz="0.095 -0.02025 0"
+    rpy="0 0 0" />
+  <parent
+    link="${prefix}link_5" />
+  <child
+    link="${prefix}kinect_base_link" />
+</joint>
+<joint
+  name="kinect_fixed"
+  type="fixed">
+  <origin
+    xyz="-0.0013956 0.011693 -0.14997"
+    rpy="0 1.5435 0" />
+  <parent
+    link="${prefix}kinect_base_link" />
+  <child
+    link="${prefix}depth_sensor" />
+</joint>
+</robot>

@@ -1,0 +1,26 @@
+<launch>  
+
+<node pkg="kuka_model" type="kuka_ik_marker" name="kuka_ik_marker" output="screen">
+    <param name="rate" value="30" />
+    <param name="frame_id" value="/pc_frame" />
+    <param name="marker_frame" value="/marker_frame" />
+    <!-- init_pose [ x, y, z, r, p, y] -->
+    <rosparam param="init_pose">[-0.50956, 0.43103, -1.3793, 0.0, 0.0, 0.0]</rosparam>
+ </node>
+
+ <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find kuka_model)/config/marker.rviz" />
+
+  <node name="pc_publisher" pkg="phantom_kuka" type="pcd_example1">
+	<param name="frame_id" value="/pc_frame" />
+    <param name="rate" value="30" />
+  </node>
+ 
+    <node pkg="tf" type="static_transform_publisher" name="pc_broadcaster"
+    args="0 0 0 2 0 1.5 /map /pc_frame 100"   />  
+    <!--- args="0 0 0 0 0 0 /map /pc_frame 100" -->
+
+</launch>
