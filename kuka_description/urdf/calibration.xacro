@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot
+  xmlns:xacro="http://www.ros.org/wiki/xacro"
+  name="kuka_calibration">
+  
+  <!-- Joint offset parameters for KUKA KR6 -->
+  <xacro:property name="a1_offset" value="0.0" />
+  <xacro:property name="a2_offset" value="0.0" />
+  <xacro:property name="a3_offset" value="0.0" />
+  <xacro:property name="a4_offset" value="0.0" />
+  <xacro:property name="a5_offset" value="0.0" />
+  <xacro:property name="a6_offset" value="0.0" />
+  
+</robot>

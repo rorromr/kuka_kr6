@@ -1,0 +1,396 @@
+<?xml version="1.0"?>
+<robot
+  xmlns:xacro="http://www.ros.org/wiki/xacro"
+  name="kuka_kr6">
+
+  <!-- Joint limits -->
+  <xacro:property name="a1_upper" value="180" />
+  <xacro:property name="a1_lower" value="-180" />
+  
+  <xacro:property name="a2_upper" value="-20" />
+  <xacro:property name="a2_lower" value="-130" />
+
+  <xacro:property name="a3_upper" value="155" />
+  <xacro:property name="a3_lower" value="-115" />
+
+  <xacro:property name="a4_upper" value="345" />
+  <xacro:property name="a4_lower" value="-345" />
+
+  <xacro:property name="a5_upper" value="80" />
+  <xacro:property name="a5_lower" value="-110" />
+
+  <xacro:property name="a6_upper" value="345" />
+  <xacro:property name="a6_lower" value="-345" />
+
+  <!-- Effort -->
+  <xacro:property name="a1_effort" value="80" />
+  <xacro:property name="a2_effort" value="80" />
+  <xacro:property name="a3_effort" value="80" />
+  <xacro:property name="a4_effort" value="80" />
+  <xacro:property name="a5_effort" value="80" />
+  <xacro:property name="a6_effort" value="80" />
+
+  <!-- Joint velocity -->
+  <xacro:property name="a1_speed" value="156" />
+  <xacro:property name="a2_speed" value="156" />
+  <xacro:property name="a3_speed" value="156" />
+  <xacro:property name="a4_speed" value="343" />
+  <xacro:property name="a5_speed" value="362" />
+  <xacro:property name="a6_speed" value="659" />
+
+  <xacro:macro name="kuka_kr6" params="prefix">
+    
+    <!-- **************************************** -->
+    <!-- Base link -->
+    <link name="${prefix}base_link">
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/base_link.stl" />
+        </geometry>
+        <material name="Grey1" />
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/base_link.stl" />
+        </geometry>
+      </collision>
+    </link>
+    
+    <!-- **************************************** -->
+    <!-- A1 -->
+    
+    <!-- Joint A1 -->
+    <joint
+      name="${prefix}joint_a1"
+      type="revolute">
+      <origin
+        xyz="0 0 0.35"
+        rpy="0 0 0" />
+      <parent
+        link="${prefix}base_link" />
+      <child
+        link="${prefix}link_1" />
+      <axis
+        xyz="0 0 -1" />
+      <limit
+        lower="${a1_lower * DEG2RAD}"
+        upper="${a1_upper * DEG2RAD}"
+        effort="${a1_effort}"
+        velocity="${a1_speed * DEG2RAD}" />
+    </joint>
+
+    <!-- Link 1 -->
+    <link
+      name="${prefix}link_1">
+      <inertial>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <mass value="2.0" />
+        <simple_inertia_def diag="0.2"/>
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/link_1.stl" />
+        </geometry>
+        <material name="KUKA_Orange" />
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/link_1.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- **************************************** -->
+    <!-- A2 -->
+    
+    <!-- Joint A2 -->
+    <joint
+      name="${prefix}joint_a2"
+      type="revolute">
+      <origin
+        xyz="0.3 -0.068 0.315"
+        rpy="0 0 0" />
+      <parent
+        link="${prefix}link_1" />
+      <child
+        link="${prefix}link_2" />
+      <axis
+        xyz="0 1 0" />
+      <!-- Offset de -90 -->
+      <limit
+        lower="${(a2_lower + 90.0) * DEG2RAD}"
+        upper="${(a2_upper + 90.0) * DEG2RAD}"
+        effort="${a2_effort}"
+        velocity="${a2_speed * DEG2RAD}" />
+    </joint>
+    
+    <!-- Link 2-->
+    <link
+    name="${prefix}link_2">
+      <inertial>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <mass value="2.0" />
+        <simple_inertia_def diag="0.2"/>
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/link_2.stl" />
+        </geometry>
+        <material name="KUKA_Orange" />
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/link_2.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- **************************************** -->
+    <!-- A3 -->
+    
+    <!-- Joint A3 -->
+    <joint
+      name="${prefix}joint a3"
+      type="revolute">
+      <origin
+        xyz="0 -0.011 0.65"
+        rpy="0 0 0" />
+      <parent
+        link="${prefix}link_2" />
+      <child
+        link="${prefix}link_3" />
+      <axis
+        xyz="0 0.99939 -0.034899" />
+      <!-- Offset +90 -->
+      <limit
+        lower="${(a3_lower - 90) * DEG2RAD}"
+        upper="${(a3_upper - 90) * DEG2RAD}"
+        effort="${a3_effort}"
+        velocity="${a3_speed * DEG2RAD}" />
+    </joint>
+
+    <!-- Link 3 -->
+    <link
+      name="${prefix}link_3">
+      <inertial>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <mass value="2.0" />
+        <simple_inertia_def diag="0.2"/>
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/link_3.stl" />
+        </geometry>
+        <material name="KUKA_Orange" />
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/link_3.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- **************************************** -->
+    <!-- A4 -->
+    
+    <!-- Joint A4 -->
+    <joint
+      name="${prefix}joint_a4"
+      type="revolute">
+      <origin
+        xyz="0.358 0.08636 0.15208"
+        rpy="0 0 0" />
+      <parent
+        link="${prefix}link_3" />
+      <child
+        link="${prefix}link_4" />
+      <axis
+        xyz="-1 0 0" />
+      <limit
+        lower="${a4_lower * DEG2RAD}"
+        upper="${a4_upper * DEG2RAD}"
+        effort="${a4_effort}"
+        velocity="${a4_speed * DEG2RAD}" />
+    </joint>
+
+    <!-- Link 4 -->
+    <link
+      name="${prefix}link_4">
+      <inertial>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <mass value="2.0" />
+        <simple_inertia_def diag="0.2"/>
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/link_4.stl" />
+        </geometry>
+        <material name="KUKA_Orange" />
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/link_4.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- **************************************** -->
+    <!-- A5 -->
+    
+    <!-- Joint A5 -->
+    <joint
+      name="${prefix}joint_a5"
+      type="revolute">
+      <origin
+        xyz="0.242 0.020238 -0.00070671"
+        rpy="0 0 0" />
+      <parent
+        link="${prefix}link_4" />
+      <child
+        link="${prefix}link_5" />
+      <axis
+        xyz="0 1 0" />
+      <limit
+        lower="${a5_lower * DEG2RAD}"
+        upper="${a5_upper * DEG2RAD}"
+        effort="${a5_effort}"
+        velocity="${a5_speed * DEG2RAD}" />
+    </joint>
+
+    <!-- Link 5 -->
+    <link
+    name="${prefix}link_5">
+      <inertial>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <mass value="2.0" />
+        <simple_inertia_def diag="0.2"/>
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/link_5.stl" />
+        </geometry>
+        <material name="KUKA_Orange" />
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/link_5.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- **************************************** -->
+    <!-- A6 -->
+    
+    <!-- Joint A6 -->
+    <joint
+      name="${prefix}joint_a6"
+      type="revolute">
+      <origin
+        xyz="0.1125 -0.02025 0"
+        rpy="0 0 0" />
+      <parent
+        link="${prefix}link_5" />
+      <child
+        link="${prefix}link_6" />
+      <axis
+        xyz="-1 0 0" />
+      <limit
+        lower="${a6_lower * DEG2RAD}"
+        upper="${a6_upper * DEG2RAD}"
+        effort="${a5_effort}"
+        velocity="${a5_speed * DEG2RAD}" />
+    </joint>
+  
+    <!-- Link 6 -->
+    <link
+    name="${prefix}link_6">
+      <inertial>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <mass value="2.0" />
+        <simple_inertia_def diag="0.2"/>
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/link_6.stl" />
+        </geometry>
+        <material name="Grey3" />
+      
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://kuka_description/meshes/visual/link_6.stl" />
+        </geometry>
+      </collision>
+    </link>
+    
+  </xacro:macro>
+
+</robot>

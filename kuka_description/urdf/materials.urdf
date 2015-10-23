@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot>
+
+  <material name="Grey1">
+      <color rgba="0.1 0.1 0.1 1" />
+  </material>
+
+  <material name="Grey2">
+      <color rgba="0.2 0.2 0.2 1" />
+  </material>
+  
+  <material name="Grey3">
+      <color rgba="0.3 0.3 0.3 1" />
+  </material>
+
+  <material name="KUKA_Orange">
+      <color rgba="0.98 0.47 0 1" />
+  </material>
+
+</robot>

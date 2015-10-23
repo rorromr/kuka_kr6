@@ -1,0 +1,14 @@
+<sdf version='1.4'>
+  <model name='kuka_kr6'>
+    <static>0</static>
+    <plugin name='ros_control' filename='libgazebo_ros_control.so'>
+      <robotNamespace>/lhd</robotNamespace>
+    </plugin>
+    <link name='__default__'>
+      <velocity_decay>
+        <linear>0</linear>
+        <angular>0</angular>
+      </velocity_decay>
+    </link>
+  </model>
+</sdf>
