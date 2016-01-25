@@ -59,7 +59,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/base_link.stl" />
+            filename="package://kuka_description/meshes/collision/base_link.stl" />
         </geometry>
       </collision>
     </link>
@@ -113,7 +113,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/link_1.stl" />
+            filename="package://kuka_description/meshes/collision/link_1.stl" />
         </geometry>
       </collision>
     </link>
@@ -168,7 +168,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/link_2.stl" />
+            filename="package://kuka_description/meshes/collision/link_2.stl" />
         </geometry>
       </collision>
     </link>
@@ -223,7 +223,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/link_3.stl" />
+            filename="package://kuka_description/meshes/collision/link_3.stl" />
         </geometry>
       </collision>
     </link>
@@ -277,7 +277,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/link_4.stl" />
+            filename="package://kuka_description/meshes/collision/link_4.stl" />
         </geometry>
       </collision>
     </link>
@@ -331,7 +331,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/link_5.stl" />
+            filename="package://kuka_description/meshes/collision/link_5.stl" />
         </geometry>
       </collision>
     </link>
@@ -386,7 +386,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/link_6.stl" />
+            filename="package://kuka_description/meshes/collision/link_6.stl" />
         </geometry>
       </collision>
     </link>
