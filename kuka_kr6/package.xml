@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+
+    <name>kuka_kr6</name>
+    <version>1.0.0</version>
+
+    <description>KUKA KR6 ROS Interface for KRC2 Controller</description>
+    <maintainer email="rorro.mr@gmail.com">Rodrigo Muñoz</maintainer>
+    <author email="rorro.mr@gmail.com">Rodrigo Muñoz</author>
+    <license>TODO</license>
+
+    <url type="website">https://github.com/rorromr/kuka_kr6</url>
+    <url type="bugtracker">https://github.com/rorromr/kuka_kr6/issues</url>
+    <url type="repository">https://github.com/rorromr/kuka_kr6</url>
+
+    <buildtool_depend>catkin</buildtool_depend>
+    
+    <export>
+      <metapackage/>
+    </export>
+
+</package>
