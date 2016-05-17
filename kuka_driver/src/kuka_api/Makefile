@@ -6,7 +6,7 @@ RM = rm
 
 CFLAGS += -g -Wall -O3 -Wno-unused
 LDLIBS += -lnsl -lkuka
-RPCGENFLAGS =
+RPCGENFLAGS = -C
 
 INCLUDE_PATH=$(PROJECTROOT)/include
 LIB_PATH=$(PROJECTROOT)/lib

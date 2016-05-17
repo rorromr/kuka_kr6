@@ -112,7 +112,7 @@ union kukaVal switch (kukaType_t type) {
 struct kukaVar_s
 {
   char nom[KUKA_VARNAME_LEN];
-  kukaVal valeur;
+  kukaVal val;
 };
 typedef kukaVar_s kukaVar_t;
 
