@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(kuka_description)
+project(kuka_kr6_description)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -79,7 +79,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES kuka_description
+#  LIBRARIES kuka_kr6_description
 #  CATKIN_DEPENDS xacro
 #  DEPENDS system_lib
 )
@@ -96,19 +96,19 @@ include_directories(
 )
 
 ## Declare a cpp library
-# add_library(kuka_description
-#   src/${PROJECT_NAME}/kuka_description.cpp
+# add_library(kuka_kr6_description
+#   src/${PROJECT_NAME}/kuka_kr6_description.cpp
 # )
 
 ## Declare a cpp executable
-# add_executable(kuka_description_node src/kuka_description_node.cpp)
+# add_executable(kuka_kr6_description_node src/kuka_kr6_description_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(kuka_description_node kuka_description_generate_messages_cpp)
+# add_dependencies(kuka_kr6_description_node kuka_kr6_description_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(kuka_description_node
+# target_link_libraries(kuka_kr6_description_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -127,7 +127,7 @@ include_directories(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS kuka_description kuka_description_node
+# install(TARGETS kuka_kr6_description kuka_kr6_description_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -152,7 +152,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_kuka_description.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_kuka_kr6_description.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

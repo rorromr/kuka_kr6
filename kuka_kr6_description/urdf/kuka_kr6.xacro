@@ -49,7 +49,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/base_link.stl" />
+            filename="package://kuka_kr6_description/meshes/visual/base_link.stl" />
         </geometry>
         <material name="Grey1" />
       </visual>
@@ -59,7 +59,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/collision/base_link.stl" />
+            filename="package://kuka_kr6_description/meshes/collision/base_link.stl" />
         </geometry>
       </collision>
     </link>
@@ -103,7 +103,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/link_1.stl" />
+            filename="package://kuka_kr6_description/meshes/visual/link_1.stl" />
         </geometry>
         <material name="KUKA_Orange" />
       </visual>
@@ -113,7 +113,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/collision/link_1.stl" />
+            filename="package://kuka_kr6_description/meshes/collision/link_1.stl" />
         </geometry>
       </collision>
     </link>
@@ -158,7 +158,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/link_2.stl" />
+            filename="package://kuka_kr6_description/meshes/visual/link_2.stl" />
         </geometry>
         <material name="KUKA_Orange" />
       </visual>
@@ -168,7 +168,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/collision/link_2.stl" />
+            filename="package://kuka_kr6_description/meshes/collision/link_2.stl" />
         </geometry>
       </collision>
     </link>
@@ -178,7 +178,7 @@
     
     <!-- Joint A3 -->
     <joint
-      name="${prefix}joint a3"
+      name="${prefix}joint_a3"
       type="revolute">
       <origin
         xyz="0 -0.011 0.65"
@@ -213,7 +213,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/link_3.stl" />
+            filename="package://kuka_kr6_description/meshes/visual/link_3.stl" />
         </geometry>
         <material name="KUKA_Orange" />
       </visual>
@@ -223,7 +223,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/collision/link_3.stl" />
+            filename="package://kuka_kr6_description/meshes/collision/link_3.stl" />
         </geometry>
       </collision>
     </link>
@@ -267,7 +267,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/link_4.stl" />
+            filename="package://kuka_kr6_description/meshes/visual/link_4.stl" />
         </geometry>
         <material name="KUKA_Orange" />
       </visual>
@@ -277,7 +277,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/collision/link_4.stl" />
+            filename="package://kuka_kr6_description/meshes/collision/link_4.stl" />
         </geometry>
       </collision>
     </link>
@@ -321,7 +321,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/link_5.stl" />
+            filename="package://kuka_kr6_description/meshes/visual/link_5.stl" />
         </geometry>
         <material name="KUKA_Orange" />
       </visual>
@@ -331,7 +331,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/collision/link_5.stl" />
+            filename="package://kuka_kr6_description/meshes/collision/link_5.stl" />
         </geometry>
       </collision>
     </link>
@@ -375,7 +375,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/visual/link_6.stl" />
+            filename="package://kuka_kr6_description/meshes/visual/link_6.stl" />
         </geometry>
         <material name="Grey3" />
       
@@ -386,11 +386,40 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://kuka_description/meshes/collision/link_6.stl" />
+            filename="package://kuka_kr6_description/meshes/collision/link_6.stl" />
         </geometry>
       </collision>
     </link>
-    
+
+
+    <!-- **************************************** -->
+    <!-- A6 -->
+
+    <!-- Tool joint -->
+    <joint
+      name="${prefix}joint_tool"
+      type="fixed">
+      <origin
+        xyz="0.1125 -0.02025 0"
+        rpy="0 0 0" />
+      <parent
+        link="${prefix}link_6" />
+      <child
+        link="${prefix}link_tool" />
+      <axis
+        xyz="1 0 0" />
+    </joint>
+    <!-- Tool link -->
+    <link name="${prefix}link_tool">
+      <inertial>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <mass value="0.01" />
+        <simple_inertia_def diag="0.01"/>
+      </inertial>
+    </link>
+
   </xacro:macro>
 
 </robot>

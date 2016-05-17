@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>kuka_description</name>
+  <name>kuka_kr6_description</name>
   <version>0.1.0</version>
   <description>This package contains KUKA KR6 URDF files.</description>
 
