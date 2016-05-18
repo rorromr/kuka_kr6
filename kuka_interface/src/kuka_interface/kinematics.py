@@ -1,14 +1,20 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from __future__ import print_function
+
+"""
+PyKDL based KUKA kinematics
+"""
+
+__author__ = 'Rodrigo Muñoz'
+__email__ = 'rmunozriffo@ing.uchile.cl'
 
 import rospy
 import numpy as np
-import math
 
 from urdf_parser_py.urdf import URDF
 from kdl_parser_py.urdf import treeFromUrdfModel
 import PyKDL
-
 
 class KukaKinematics(object):
     def __init__(self, urdf_param = 'robot_description'):
