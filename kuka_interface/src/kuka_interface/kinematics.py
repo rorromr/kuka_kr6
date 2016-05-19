@@ -16,7 +16,7 @@ from urdf_parser_py.urdf import URDF
 from kdl_parser_py.urdf import treeFromUrdfModel
 import PyKDL
 
-class KukaKinematics(object):
+class Kinematics(object):
     def __init__(self, urdf_param = 'robot_description'):
         self._urdf = URDF.from_parameter_server(urdf_param)
         (parse_ok, self._kdl_tree) = treeFromUrdfModel(self._urdf)
@@ -149,7 +149,7 @@ class KukaKinematics(object):
 
 if __name__ == '__main__':
     rospy.init_node('kuka_kinematics_test')
-    kinematics = KukaKinematics()
+    kinematics = Kinematics()
     kinematics.print_robot_description()
     kinematics.print_kdl_chain()
     print('IK Test')
