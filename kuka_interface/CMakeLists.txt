@@ -15,9 +15,7 @@ catkin_package(
     rospy
     geometry_msgs
     sensor_msgs
-    urdfdom
     tf
   DEPENDS
     python_orocos_kdl
-    urdfdom
 )

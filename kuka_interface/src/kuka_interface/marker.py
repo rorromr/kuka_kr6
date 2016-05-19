@@ -33,14 +33,14 @@ class Option6DOF(object):
         if feedback.event_type == InteractiveMarkerFeedback.POSE_UPDATE:
             rospy.loginfo( 'Pose changed')
             # Print marker position
-            print (feedback.pose.position.x,
+            print( (feedback.pose.position.x,
                 feedback.pose.position.y,
-                feedback.pose.position.z)
+                feedback.pose.position.z) )
             # Print marker orientation
-            print (feedback.pose.orientation.x,
+            print( (feedback.pose.orientation.x,
                 feedback.pose.orientation.y,
                 feedback.pose.orientation.z,
-                feedback.pose.orientation.w)
+                feedback.pose.orientation.w) )
 
 
 class MarkerServer(object):
@@ -120,8 +120,9 @@ class MarkerServer(object):
 
 def main():
     rospy.init_node('marker_test')
-    
+    rospy.loginfo('Init marker_test')
     marker_server = MarkerServer(topic = 'marker')
+    rospy.loginfo('Add 6DOF')
     marker_server.add_6DOF()
 
     rospy.spin()
