@@ -10,6 +10,8 @@ __author__ = 'Rodrigo Muñoz'
 __email__ = 'rmunozriffo@ing.uchile.cl'
 
 import rospy
+from geometry_msgs.msg import Pose
+
 import numpy as np
 
 from urdf_parser_py.urdf import URDF
@@ -97,8 +99,15 @@ class Kinematics(object):
         pos = end_frame.p
         rot = PyKDL.Rotation(end_frame.M)
         rot = rot.GetQuaternion()
-        return np.array([pos[0], pos[1], pos[2],
-                         rot[0], rot[1], rot[2], rot[3]])
+        pose = Pose()
+        pose.position.x = pos[0]
+        pose.position.y = pos[1]
+        pose.position.z = pos[2]
+        pose.orientation.x = rot[0]
+        pose.orientation.y = rot[1]
+        pose.orientation.z = rot[2]
+        pose.orientation.w = rot[3]
+        return pose
 
     def forward_velocity_kinematics(self,joint_velocities=None):
         end_frame = PyKDL.FrameVel()
@@ -107,11 +116,11 @@ class Kinematics(object):
         return end_frame.GetTwist()
     
     def inverse_kinematics(self, position, orientation=None, seed=None):
-        pos = PyKDL.Vector(position[0], position[1], position[2])
+        pos = PyKDL.Vector(position.x, position.y, position.z)
         if orientation != None:
             rot = PyKDL.Rotation()
-            rot = rot.Quaternion(orientation[0], orientation[1],
-                                 orientation[2], orientation[3])
+            rot = rot.Quaternion(orientation.x, orientation.y,
+                                 orientation.z, orientation.w)
         # Populate seed with current angles if not provided
         seed_array = PyKDL.JntArray(self._num_joints)
         if seed != None:
@@ -161,11 +170,8 @@ if __name__ == '__main__':
     kinematics.print_robot_description()
     kinematics.print_kdl_chain()
     print('IK Test')
-    p = kinematics.forward_position_kinematics(joint_values=[0.1,0,0,0,0,0.0])
-    pos = p[0:3]
-    rot = p[3:]
-    print(pos)
-    print(rot)
-    print(kinematics.inverse_kinematics(pos,rot,[0,0,0,0,0,0.0]))
+    p = kinematics.forward_position_kinematics(joint_values=[0.1,0,0,0,0,0])
+    print(p)
+    print(kinematics.inverse_kinematics(p.position,p.orientation,[0,0,0,0,0,0]))
     print('Inertia')
-    print(kinematics.jacobian_pseudo_inverse([0,0,0,0,0,0.0]))
+    print(kinematics.jacobian_pseudo_inverse([0,0,0,0,0,0]))

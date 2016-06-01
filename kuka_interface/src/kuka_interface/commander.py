@@ -26,28 +26,29 @@ class CommanderBase(object):
 
     # KUKA kinematics
     self.kinematics = kinematics.Kinematics(urdf_param = 'robot_description')
+
+    self.joint_names = self.kinematics.get_joints_names()
+    self.dof = len(self.joint_names)
+    
     # Joint states
     self._joint_sub = rospy.Subscriber('joint_states', JointState, self._joint_callback)
     # Joint states msg
     self.joint_states = JointState()
-    self.joint_states.name = self.kinematics.get_joints_names()
-    self.joint_states.position = [0.0]*len(self.joint_states.name)
+    self.joint_states.name = self.joint_names
+    self.joint_states.position = [0.0] * self.dof
+    self.joint_states.velocity = [0.0] * self.dof
+    self.joint_states.effort = [0.0] * self.dof
 
   def _joint_callback(self, msg):
     # Update current joint states
     self.joint_states = msg
 
-  def get_tip_pose(self):
-    data = self.kinematics.forward_position_kinematics(self.joint_states.position)
-    pose = Pose()
-    pose.position.x = data[0]
-    pose.position.y = data[1]
-    pose.position.z = data[2]
-    pose.orientation.x = data[3]
-    pose.orientation.y = data[4]
-    pose.orientation.z = data[5]
-    pose.orientation.w = data[6]
-    return pose
+  def get_tip_pose(self, wait_for_msg = False):
+    joint_val = self.joint_states.position
+    if wait_for_msg:
+      msg = rospy.wait_for_message('joint_states', JointState, timeout=2)
+      joint_val = msg.position
+    return self.kinematics.forward_position_kinematics(self.joint_states.position)
 
   def home(self):
     rospy.loginfo('home command called')
