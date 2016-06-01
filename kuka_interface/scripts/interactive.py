@@ -21,11 +21,17 @@ class KukaMarkerController(object):
         self.kuka_cmd = CommanderBase()
         self._add_ik_marker()
         
+
+    def _get_init_pose(self):
+        print()
+
     def _add_ik_marker(self):
+        
         opt = Option6DOF()
         opt.name = 'ik_marker'
         opt.frame_id = 'shadow/base_link'
         opt.description = 'IK Marker for KUKA Robot'
+        opt.init_pose = self.kuka_cmd.get_tip_pose()
         opt.callback = self.ik_marker_callback
         self.marker_server.add_6DOF(opt)
 

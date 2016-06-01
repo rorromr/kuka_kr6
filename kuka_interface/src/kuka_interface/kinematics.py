@@ -32,8 +32,8 @@ class Kinematics(object):
         self._tip_frame = PyKDL.Frame()
         self._arm_chain = self._kdl_tree.getChain(self._base_link,
                                                   self._tip_link)
-        # @TODO Hardcoded
-        self._joint_names = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6']
+        # Get joint name
+        self._joint_names = self.get_joints_names()
         self._num_joints = len(self._joint_names)
 
         # KDL Solvers
@@ -46,6 +46,14 @@ class Kinematics(object):
         self._jac_kdl = PyKDL.ChainJntToJacSolver(self._arm_chain)
         self._dyn_kdl = PyKDL.ChainDynParam(self._arm_chain,
                                             PyKDL.Vector.Zero())
+
+    # @TODO Check with KDL
+    def get_joints_names(self):
+        name = []
+        for j in self._urdf.joints:
+            if j.type != 'fixed':
+                name.append(j.name)
+        return name
 
     def print_robot_description(self):
         nf_joints = 0

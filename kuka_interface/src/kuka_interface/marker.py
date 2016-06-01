@@ -13,7 +13,7 @@ import rospy
 from interactive_markers.interactive_marker_server import InteractiveMarkerServer
 from visualization_msgs.msg import (InteractiveMarkerControl, InteractiveMarker,
     InteractiveMarkerFeedback)
-from geometry_msgs.msg import Point, Quaternion
+from geometry_msgs.msg import Point, Quaternion, Pose
 
 
 class Option6DOF(object):
@@ -21,8 +21,9 @@ class Option6DOF(object):
     def __init__(self):
         self.name = 'marker'
         self.frame_id = 'world'
-        self.init_position = Point( 0.0, 0.0, 0.0)
-        self.init_orientation = Quaternion(0.0, 0.0, 0.0, 1.0)
+        self.init_pose = Pose()
+        self.init_pose.position = Point( 0.0, 0.0, 0.0)
+        self.init_pose.orientation = Quaternion(0.0, 0.0, 0.0, 1.0)
         self.description = 'marker'
         self.scale = 0.3
         self.callback = Option6DOF.marker_feedback
@@ -54,7 +55,7 @@ class MarkerServer(object):
     def add_6DOF(self, opt = Option6DOF()):
         marker = InteractiveMarker()
         marker.header.frame_id = opt.frame_id
-        marker.pose.position = opt.init_position
+        marker.pose = opt.init_pose
         marker.scale = opt.scale
 
         marker.name = opt.name
