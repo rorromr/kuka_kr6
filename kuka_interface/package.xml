@@ -24,7 +24,7 @@
   <run_depend>rospy</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>sensor_msgs</run_depend>
-  <!-- <run_depend>urdfdom</run_depend> -->
+  <run_depend>liburdfdom-dev</run_depend>
   <run_depend>python_orocos_kdl</run_depend>
   <run_depend>tf</run_depend>
   
