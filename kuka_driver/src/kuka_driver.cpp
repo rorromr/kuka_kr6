@@ -118,12 +118,12 @@ class KukaRequestServer
       joint_state_.effort.resize(6,0.0);
       joint_state_.name.resize(6);
       // Joint name
-      joint_state_.name[0]="a1";
-      joint_state_.name[1]="a2";
-      joint_state_.name[2]="a3";
-      joint_state_.name[3]="a4";
-      joint_state_.name[4]="a5";
-      joint_state_.name[5]="a6";
+      joint_state_.name[0]="joint_a1";
+      joint_state_.name[1]="joint_a2";
+      joint_state_.name[2]="joint_a3";
+      joint_state_.name[3]="joint_a4";
+      joint_state_.name[4]="joint_a5";
+      joint_state_.name[5]="joint_a6";
 
       /*
       TODO JOINT LIMITS

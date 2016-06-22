@@ -1,7 +1,9 @@
 <launch>
 	<arg name="gui" default="True" />
 
-	<node name="rviz" pkg="rviz" type="rviz" respawn="false" output="screen" args="-d $(find kuka_interface)/config/shadow_interface.rviz"/>/>
+	<!--
+	<node name="rviz" pkg="rviz" type="rviz" respawn="false" output="screen" args="-d $(find kuka_interface)/config/shadow_interface.rviz"/>
+	-->
 	
 	<group ns="shadow">
 		<param name="robot_description" command="$(find xacro)/xacro.py '$(find kuka_kr6_description)/robots/kuka_kr6.urdf.xacro'" />
@@ -10,6 +12,11 @@
 			<param name="robot_description" value="robot_description" />
 			<param name="tf_prefix" value="shadow" />
 		</node>
+
+		<node name="shadow_interactive" pkg="kuka_interface" type="interactive.py" respawn="false" output="screen"/>
+
 	</group>
+
+	<node pkg="tf" type="static_transform_publisher" name="shadow_base_tfb" args="0 0 0 0 0 0 shadow/base_link base_link 100"/>
 
 </launch>

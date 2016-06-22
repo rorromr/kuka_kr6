@@ -22,7 +22,7 @@ class CommanderBase(object):
   """Base class for commander"""
   def __init__(self):
     rospy.loginfo('Init KUKA Commander')
-    self.ns = 'kuka_driver'
+    self.ns = '/kuka_driver'
 
     # KUKA kinematics
     self.kinematics = kinematics.Kinematics(urdf_param = 'robot_description')
@@ -82,32 +82,33 @@ class Commander(CommanderBase):
     self.stop_req = StopRequest()
     self.set_vel_req = SetVelocityRequest()
     self.ptp_req = PTPRequest()
+    rospy.loginfo('KUKA Commander OK')
 
   def home(self):
     try:
       resp = self.home_server(self.home_req)
     except rospy.ServiceException as exc:
-      print('Service "home" did not process request: ' + str(exc))
+      rospy.logwarn('Service "home" did not process request: ' + str(exc))
 
   def stop(self):
     try:
       resp = self.stop_server(self.stop_req)
     except rospy.ServiceException as exc:
-      print('Service "stop" did not process request: ' + str(exc))
+      rospy.logwarn('Service "stop" did not process request: ' + str(exc))
 
   def set_vel(self,desired_vel):
     self.set_vel_req.desired_vel = desired_vel
     try:
       resp = self.set_vel_server(self.set_vel_req)
     except rospy.ServiceException as exc:
-      print('Service "set_vel" did not process request: ' + str(exc))
+      rospy.logwarn('Service "set_vel" did not process request: ' + str(exc))
 
   def ptp(self, position):
     self.ptp_req.position = position
     try:
       resp = self.ptp_server(self.ptp_req)
     except rospy.ServiceException as exc:
-      print('Service "ptp" did not process request: ' + str(exc))
+      rospy.logwarn('Service "ptp" did not process request: ' + str(exc))
 
 def main():
   rospy.init_node('kuka_commander_test')
