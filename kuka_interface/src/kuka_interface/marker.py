@@ -23,11 +23,12 @@ class OptionMarker(object):
         self.name = 'marker'
         self.frame_id = 'world'
         self.init_pose = Pose()
-        self.init_pose.position = Point( 0.0, 0.0, 0.0)
+        self.init_pose.position = Point(0.0, 0.0, 0.0)
         self.init_pose.orientation = Quaternion(0.0, 0.0, 0.0, 1.0)
         self.description = 'marker'
         self.scale = 0.3
         self.callback = OptionMarker.marker_feedback
+        self.base_marker = None
     
     @staticmethod
     def marker_feedback(feedback):
@@ -64,6 +65,9 @@ class OptionMenu(object):
             # Grasp
             rospy.loginfo('Menu selected: ' + str(feedback.menu_entry_id))
 
+    @staticmethod
+    def void_callback(feedback):
+        pass
 
 class MarkerServer(object):
     """MarkerServer"""
@@ -72,45 +76,14 @@ class MarkerServer(object):
         self.server = InteractiveMarkerServer(topic)
         # Menu handler
         self.menu_handler = MenuHandler()
-
-    @staticmethod
-    def get_menu_marker(opt_marker = OptionMarker()):
-        # Menu marker
-        marker = InteractiveMarker()
-        marker.header.frame_id = opt_marker.frame_id
-        marker.pose = opt_marker.init_pose
-        marker.scale = opt_marker.scale
-        marker.name = opt_marker.name
-        # Void sphere marker
-        void_marker = Marker()
-        void_marker.type = Marker.SPHERE
-        void_marker.scale.x = opt_marker.scale
-        void_marker.scale.y = opt_marker.scale
-        void_marker.scale.z = opt_marker.scale
-        void_marker.color.r = 0.5
-        void_marker.color.g = 0.5
-        void_marker.color.b = 0.5
-        void_marker.color.a = 0.5
-        # Add control
-        control = InteractiveMarkerControl()
-        control.interaction_mode = InteractiveMarkerControl.BUTTON
-        control.always_visible = True
-        control.markers.append(void_marker)
-        marker.controls.append(control)
-        return marker
-
         
-    def add_menu_entry(self, marker=None, opt_menu=OptionMenu()):
-        if not marker:
-            marker = self.get_menu_marker()
-        self.server.insert(marker, OptionMarker.void_callback)
-        self.server.applyChanges()
+    def add_menu_entry(self, opt_menu=OptionMenu()):
         self.menu_handler.insert(opt_menu.entry_name, callback=opt_menu.callback)
         self.menu_handler.apply(self.server, opt_menu.marker_name)
         self.server.applyChanges()
 
     
-    def add_6DOF(self, opt = OptionMarker()):
+    def add_6DOF(self, opt=OptionMarker()):
         marker = InteractiveMarker()
         marker.header.frame_id = opt.frame_id
         marker.pose = opt.init_pose
@@ -118,6 +91,14 @@ class MarkerServer(object):
 
         marker.name = opt.name
         marker.description = opt.description
+
+        # Base control
+        control = InteractiveMarkerControl()
+        control.interaction_mode = InteractiveMarkerControl.BUTTON
+        control.always_visible = True
+        if opt.base_marker:
+            control.markers.append(opt.base_marker)
+        marker.controls.append(control)
 
         # X axis rotation
         control = InteractiveMarkerControl()
@@ -177,13 +158,48 @@ class MarkerServer(object):
         self.server.insert(marker, opt.callback)
         self.server.applyChanges()
 
+class MarkerColorBase(object):
+    def __init__(self, r=1.0, g=1.0, b=1.0):
+        self.r = r
+        self.g = g
+        self.b = b
+
+class MarkerColor(object):
+    WHITE = MarkerColorBase(1.0, 1.0, 1.0)
+    GRAY  = MarkerColorBase(0.5, 0.5, 0.5)
+    RED   = MarkerColorBase(0.9, 0.0, 0.0)
+    GREEN = MarkerColorBase(0.0, 0.9, 0.0)
+    BLUE  = MarkerColorBase(0.0, 0.0, 0.9)
+
+def get_marker_sphere(scale=0.1, color=MarkerColor.WHITE, alpha=0.8):
+    marker = Marker()
+    marker.type = Marker.SPHERE
+    marker.scale.x = scale
+    marker.scale.y = scale
+    marker.scale.z = scale
+    marker.color.r = color.r
+    marker.color.g = color.g
+    marker.color.b = color.b
+    marker.color.a = alpha
+    return marker
 
 def main():
     rospy.init_node('marker_test')
     rospy.loginfo('Init marker_test')
     marker_server = MarkerServer(topic = 'marker')
-    rospy.loginfo('Add 6DOF')
-    marker_server.add_6DOF()
+
+    marker_opt = OptionMarker()
+    marker_opt.name = 'test_marker'
+    marker_opt.base_marker = get_marker_sphere(color=MarkerColor.BLUE)
+
+    menu_entry = OptionMenu()
+    menu_entry.entry_name = 'Test marker'
+    menu_entry.marker_name = 'test_marker'
+
+    rospy.loginfo('Add 6DOF with menu')
+    marker_server.add_6DOF(marker_opt)
+
+    marker_server.add_menu_entry(menu_entry)
 
     rospy.spin()
 
