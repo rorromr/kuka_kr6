@@ -15,7 +15,7 @@ from copy import copy
 import rospy
 from sensor_msgs.msg import JointState
 from kuka_interface.commander import CommanderBase, Commander
-from kuka_interface.marker import MarkerServer, OptionMarker, OptionMenu
+from kuka_interface.marker import MarkerServer, OptionMarker, OptionMenu, get_marker_sphere
 from visualization_msgs.msg import InteractiveMarkerFeedback
 
 class KukaMarkerBaseController(object):
@@ -49,23 +49,18 @@ class KukaMarkerBaseController(object):
         opt.description = 'IK Marker for KUKA Robot'
         opt.init_pose = self.shadow_cmd.kinematics.forward_position_kinematics(self._joint_states.position)
         opt.callback = self.ik_marker_callback
+        opt.base_marker = get_marker_sphere()
+        
         self.marker_server.add_6DOF(opt)
 
     def _add_menu(self):
         # Get menu marker
-        menu_marker_opt = OptionMarker()
-        menu_marker_opt.name = 'menu_marker'
-        menu_marker_opt.frame_id = 'shadow/link_6'
-        menu_marker_opt.description = 'Menu for KUKA Robot'
-        menu_marker_opt.scale = 0.1
-        menu_marker = MarkerServer.get_menu_marker(menu_marker_opt)
+        opt = OptionMenu()
+        opt.marker_name = 'ik_marker'
+        opt.entry_name = 'PTP'
+        opt.callback = self.ptp
 
-        menu_entry = OptionMenu()
-        menu_entry.marker_name = menu_marker_opt.name
-        menu_entry.entry_name = 'PTP'
-        menu_entry.callback = self.ptp
-
-        self.marker_server.add_menu_entry(menu_marker, menu_entry)
+        self.marker_server.add_menu_entry(opt)
         
 
     def ptp(self, feedback):
@@ -89,12 +84,11 @@ class KukaMarkerController(KukaMarkerBaseController):
     def ptp(self, feedback):
         print('PTP')
         self.kuka_cmd.ptp(self._joint_states.position)
-    
 
 def main():
     rospy.init_node('marker_test')
     rospy.loginfo('Init marker_test')
-    kuka_marker = KukaMarkerController()
+    kuka_marker = KukaMarkerBaseController()
     rospy.spin()
 
 if __name__ == "__main__":

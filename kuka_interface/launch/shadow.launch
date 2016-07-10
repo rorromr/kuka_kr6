@@ -1,22 +1,26 @@
 <launch>
 	<arg name="gui" default="True" />
 
-	<!--
+	<!-- Rviz with real robot and shadow -->
 	<node name="rviz" pkg="rviz" type="rviz" respawn="false" output="screen" args="-d $(find kuka_interface)/config/shadow_interface.rviz"/>
-	-->
+	
 	
 	<group ns="shadow">
+		<!-- Shadow robot description -->
 		<param name="robot_description" command="$(find xacro)/xacro.py '$(find kuka_kr6_description)/robots/kuka_kr6.urdf.xacro'" />
 
+		<!-- Shadow robot state publisher -->
 		<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
 			<param name="robot_description" value="robot_description" />
 			<param name="tf_prefix" value="shadow" />
 		</node>
 
+		<!-- Shadow robot interactive marker -->
 		<node name="shadow_interactive" pkg="kuka_interface" type="interactive.py" respawn="false" output="screen"/>
 
 	</group>
-
+	
+	<!-- TF for shadow/base_link -->
 	<node pkg="tf" type="static_transform_publisher" name="shadow_base_tfb" args="0 0 0 0 0 0 shadow/base_link base_link 100"/>
 
 </launch>

@@ -171,7 +171,7 @@ class MarkerColor(object):
     GREEN = MarkerColorBase(0.0, 0.9, 0.0)
     BLUE  = MarkerColorBase(0.0, 0.0, 0.9)
 
-def get_marker_sphere(scale=0.1, color=MarkerColor.WHITE, alpha=0.8):
+def get_marker_sphere(scale=0.1, color=MarkerColor.GRAY, alpha=0.6):
     marker = Marker()
     marker.type = Marker.SPHERE
     marker.scale.x = scale
