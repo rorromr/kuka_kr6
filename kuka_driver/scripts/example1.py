@@ -14,12 +14,12 @@ if __name__=='__main__':
 
   kuka = KukaCommander()  
   rospy.sleep(0.5)
-  kuka.set_vel(50)
+  kuka.set_vel(30)
   kuka.home()
   rospy.sleep(0.5)
   kuka.ptp([0.2, 0.0, 0.0, 0.0, 0.0, 0.0]) 
   rospy.sleep(0.5)
   kuka.home()
   rospy.sleep(0.5)
-  kuka.ptp([0.11, 0.72, -0.8, 0.0, 0.0, 0.0]) #OPEN DOOR
+  kuka.ptp([-0.2, 0.0, 0.0, 0.0, 0.0, 0.0]) #OPEN DOOR
   kuka.home()
